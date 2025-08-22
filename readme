@@ -1,0 +1,273 @@
+Guided or supervided Automation:
+
+fontend (web app, Next.js):
+- organazation login
+- dashboard, view past runs, 
+- wizard interface, setup and run new launches, confirm screenshorts and live pages, view results
+
+backend (Next.js API routes, Playwright Engine):
+- queue management, multiple users
+- background processing 
+- report progress to frontend via socket
+
+database (SQLite):
+- user, site, credentials, past runs, results
+
+user flow:
+- user login
+- start process, wizard for old and new site credentials
+- monitor progress, confirm essential elements, confirm screenshots and live pages
+- view results, download reports
+
+# Automation Tool Project Specification
+
+## Project Overview
+A web-based automation tool for managing site migration workflows between old and new instances. The tool automates repetitive tasks while providing human oversight and verification capabilities for critical steps.
+
+## Target Users
+- Users need to manage site migrations with multiple steps
+- Requires verification of settings and user data accuracy
+- Need to see automation progress in real-time
+
+## Core Requirements
+
+### Functional Requirements
+1. **Dual Site Management**: Handle old and new site instances simultaneously
+2. **Workflow Automation**: Automate login, navigation, form filling, and basic tasks
+3. **Human Verification**: Pause automation for critical decisions and manual actions
+4. **Real-time Monitoring**: View automation progress on both sites simultaneously
+5. **Screenshot Capture**: Document each step for verification and audit trails
+6. **Workflow Configuration**: Configure automation steps and site credentials
+7. **Progress Tracking**: Monitor completion status and handle errors
+
+### Non-Functional Requirements
+
+1. **Reliable Automation**: Handle web automation robustly
+2. **Basic Styling**: Simple CSS that matches organizational branding
+
+
+## Technical Architecture
+
+### Technology Stack
+- **Frontend & Backend**: Next.js with API routes (single codebase)
+- **Automation Engine**: Playwright for browser automation
+- **Database**: SQLite (file-based, no server setup)
+- **Styling**: Regular CSS (basic styling, not priority)
+- **Language**: TypeScript (built-in Next.js support)
+
+### Why This Stack?
+1. **Next.js**: Built-in API routes eliminate need for separate backend server
+2. **Playwright**: More reliable than Puppeteer, better error handling, multi-browser support
+3. **SQLite**: Perfect for single-organization use, no server setup required
+4. **Single Codebase**: Faster development, easier deployment, simpler maintenance
+
+## Deployment & Hosting
+**Oracle Cloud Free Tier
+```
+
+### Production Considerations
+
+**Resource Management:**
+- **Browser Cleanup**: Implement automatic browser instance cleanup
+- **Memory Monitoring**: Set up alerts for high memory usage
+- **Storage Management**: Regular cleanup of old screenshots and logs
+
+## User Interface Design
+
+### Flexible Two-Panel Layout
+The interface uses an adaptable design that can handle various automation workflows without being constrained to a fixed layout.
+
+1. **Left Panel - Control Panel**
+   - Workflow controls (Start, Pause, Resume, Stop)
+   - Step navigation (Previous, Next, Skip)
+   - Progress indicators and status display
+   - Manual action buttons and approval controls
+   - Current step information and instructions
+   - Error handling and recovery options
+
+2. **Right Panel - Dynamic Screen View**
+   - **Tab Navigation**: Multiple tabs for different screens/contexts the tool is working on
+   - **Screen Content**: Embedded browser view, form interface, or data display
+   - **Context Switching**: Tabs can represent different sites, pages, or tools being automated
+
+### Tab-Based Screen Management
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    Site Launcher Automation Tool                │
+├─────────────────────┬───────────────────────────────────────────┤
+│                     │ [Old Site] [New Site] [Google Console]   │
+│   Control Panel     │ ┌─────────────────────────────────────┐   │
+│                     │ │                                     │   │
+│ • Start Workflow    │ │        Active Screen View            │   │
+│ • Step Controls     │ │                                     │   │
+│ • Progress Status   │ │  (Browser, Form, or Data Display)   │   │
+│ • Manual Actions    │ │                                     │   │
+│ • Error Handling    │ └─────────────────────────────────────┘   │
+│                     │                                         │
+│ • Current Step      │ Tab indicators show which screens are  │
+│ • Instructions      │ active and their completion status     │
+│ • Approval Buttons  │                                         │
+└─────────────────────┴─────────────────────────────────────────┘
+```
+
+### Dynamic Tab Examples
+
+**Site Migration Workflow:**
+- **Old Site Tab**: Shows old site browser view for data extraction
+- **New Site Tab**: Shows new site for data migration
+- **Settings Tab**: Displays extracted settings for human verification
+
+**Sitemap Submission Workflow:**
+- **Google Console Tab**: Google Search Console interface
+- **Sitemap Tab**: Sitemap file viewer/editor
+- **Status Tab**: Submission progress and results
+
+**Accessibility Check Workflow:**
+- **Target Site Tab**: Site being tested
+- **Results Tab**: Accessibility report and issues
+- **Actions Tab**: Remediation tasks and progress
+
+### Key Interface Features
+
+**Adaptive Layout:**
+- **Dynamic Tabs**: Tabs appear/disappear based on workflow type
+- **Flexible Content**: Right panel adapts to show browsers, forms, or data
+- **Responsive Design**: Works on different screen sizes
+
+**Workflow Controls:**
+- **Step-by-step Execution**: Clear progression through automation steps
+- **Human Intervention**: Pause/resume with manual approval points
+- **Error Recovery**: Retry options and fallback procedures
+
+**Real-time Updates:**
+- **Live Progress**: Current step and overall workflow status
+- **Screen Synchronization**: Multiple tabs update simultaneously
+- **Status Indicators**: Visual feedback for each tab's completion state
+
+### Workflow-Specific Adaptations
+
+**Site Migration Mode:**
+- Left panel shows migration progress and data verification
+- Right panel has tabs for old site, new site, and settings review
+- Approval buttons for critical migration decisions
+
+**Sitemap Submission Mode:**
+- Left panel shows submission steps and API status
+- Right panel has tabs for Google Console, sitemap files, and results
+- Progress tracking for multiple sitemap submissions
+
+**Accessibility Testing Mode:**
+- Left panel shows test progress and issue summary
+- Right panel has tabs for live site, test results, and action items
+- Issue prioritization and remediation tracking
+
+### Responsive Behavior
+
+**Desktop Layout:**
+- Side-by-side panels with full functionality
+- All controls visible simultaneously
+- Multiple tabs can be open and visible
+
+**Tablet Layout:**
+- Stacked panels (control panel above, screen view below)
+- Tab navigation remains accessible
+- Touch-friendly controls
+
+**Mobile Layout:**
+- Single column layout
+- Collapsible control panel
+- Tab navigation as dropdown/accordion
+
+## Workflow Management
+
+### Automation Steps
+1. **Setup Phase**: Login to both sites, navigate to relevant sections
+2. **Data Extraction**: Pull settings and user data from old site
+3. **Verification Phase**: Human review of extracted data
+4. **Data Migration**: Transfer verified data to new site
+5. **Manual Actions**: Human execution of critical steps (e.g., "Go Live" button)
+6. **Final Verification**: Confirm successful migration
+7. **Documentation**: Generate completion reports and screenshots
+
+### Human Verification Points
+- **Settings Comparison**: Review 1k+ user settings before migration
+- **Critical Actions**: Manual execution of important buttons/actions
+- **Data Accuracy**: Verify migrated information matches source
+- **Completion Confirmation**: Final approval before marking workflow complete
+
+## Database Schema
+
+### Core Tables
+1. **Workflows**: Workflow definitions and configurations
+2. **WorkflowRuns**: Individual execution instances
+3. **Steps**: Individual automation steps within workflows
+4. **Screenshots**: Captured images for verification
+5. **Credentials**: Site login information (encrypted)
+6. **Results**: Execution results and logs
+
+### Data Storage Strategy
+- **SQLite file**: Single database file, easy backup and deployment
+- **Minimal complexity**: Simple schema for fast development
+- **Local storage**: No external database dependencies
+
+## Development Approach
+
+### Phase 1: Core Infrastructure
+- Next.js project setup with basic routing
+- SQLite database setup and basic schema
+- Playwright integration for browser automation
+- Basic three-section layout
+
+### Phase 2: Automation Engine
+- Workflow configuration interface
+- Basic automation steps (login, navigation, form filling)
+- Screenshot capture and storage
+- Progress tracking
+
+### Phase 3: Human Verification
+- Pause/resume functionality
+- Manual intervention capabilities
+- Data comparison tools
+- Error handling and recovery
+
+### Phase 4: Polish & Deployment
+- Basic CSS styling
+- Error handling improvements
+- Deployment configuration
+- User documentation
+
+## Deployment Strategy
+
+### Development Environment
+- Local development with hot reload
+- SQLite database file in project directory
+- Playwright browsers running locally
+
+### Production Environment
+- Single server deployment
+- Next.js build with `npm run build && npm start`
+- SQLite database file on server
+- Reverse proxy for domain/subdomain access
+
+## Success Criteria
+1. **Automation Reliability**: Successfully automates 80%+ of repetitive tasks
+2. **Human Oversight**: Provides clear verification points for critical decisions
+3. **Development Speed**: Working prototype within 1-2 weeks
+4. **Ease of Use**: Team members can use tool with minimal training
+5. **Maintenance**: Easy to update and modify workflows
+
+## Future Considerations
+- **API Integrations**: Google Search Console, sitemap submission
+- **Workflow Templates**: Reusable automation patterns
+- **Reporting**: Detailed execution logs and analytics
+- **Multi-user Support**: If team grows beyond 3 people
+- **Cloud Deployment**: If local hosting becomes limiting
+
+## Risk Mitigation
+1. **Site Changes**: Playwright's robust element selection strategies
+2. **Automation Failures**: Comprehensive error handling and manual override options
+3. **Data Loss**: Screenshot capture and detailed logging
+4. **Performance**: Efficient database queries and minimal memory usage
+5. **Security**: Local deployment, encrypted credential storage
+
+This specification provides a clear roadmap for developing a focused, efficient automation tool that meets the team's specific needs without unnecessary complexity.
